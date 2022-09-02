@@ -1,5 +1,4 @@
 # MCustomCosmetics
-Requires [Harmony](https://github.com/pardeike/Harmony/releases)
 
 Unturned plugin for applying any possible cosmetic to yourself via command or globally via the config.
 
