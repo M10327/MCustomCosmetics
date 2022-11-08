@@ -52,7 +52,7 @@ namespace MCustomCosmetics
                 UnturnedChat.Say(caller, Syntax);
                 return;
             }
-            command[1] = Regex.Replace(command[1], "[^A-Za-z0-9 -]", "");
+            command[1] = Regex.Replace(command[1], "[^A-Za-z0-9]", "");
             if (command[1].Length < 1)
             {
                 UnturnedChat.Say(caller, "Please reformat your outfit name. It must be alphanumeric and at least 1 character long");
