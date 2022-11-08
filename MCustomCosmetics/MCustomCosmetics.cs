@@ -75,6 +75,7 @@ namespace MCustomCosmetics
             //mythics["palmnights"] = "particle_effect:45";
 
             globalCos = new Dictionary<ulong, bool>();
+            Rocket.Core.Logging.Logger.Log($"{Name} {Assembly.GetName().Version} has been loaded!");
         }
 
         private void OnJoinReq(CSteamID player, ref ESteamRejection? rejectionReason)
