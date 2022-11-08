@@ -10,6 +10,7 @@ All permissions are just the command name. You can use the itemdefid (found in t
 - /removecosetic <all/id/hat/glasses/mask/backpack/vest/shirt/pants> : removes all or just one cosmetic you have applied via the plugin.
 - /listcosmetics : lists all cosmetics you have applied via the plugin. 
 - /togglecos : Toggles whether the global cosmetics applies to you. 
+- /outfit <create/delete/select/list> (name) : Manage outfits
 
 ### Default Aliases:
 - /cosmetic : /cos
