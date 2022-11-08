@@ -41,20 +41,33 @@ namespace MCustomCosmetics
                 UnturnedChat.Say(caller, mythicList);
                 return;
             }
-            var pData = MCustomCosmetics.Instance.pData.data;
             UnturnedPlayer p = caller as UnturnedPlayer;
             if (!MCustomCosmetics.Instance.pData.data.ContainsKey((ulong)p.CSteamID))
             {
                 MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID] = new PlayerCosmetic()
                 {
-                    Hat = 0,
-                    Mask = 0,
-                    Glasses = 0,
-                    Backpack = 0,
-                    Shirt = 0,
-                    Vest = 0,
-                    skins = new Dictionary<int, string>()
+                    SelectedFit = "Outfit1",
+                    Outfits = new Dictionary<string, Outfit>()
+                    {
+                        {"Outfit1", new Outfit()
+                        {
+                            Hat = 0,
+                            Mask = 0,
+                            Glasses = 0,
+                            Backpack = 0,
+                            Shirt = 0,
+                            Vest = 0,
+                            skins = new Dictionary<int, string>()
+                        } }
+                    },
+
+                    
                 };
+            }
+            if (!MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.ContainsKey(MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit))
+            {
+                UnturnedChat.Say(caller, "You do not have a selected outfit! Select one with /outfit");
+                return;
             }
             var search = command[0];
             var econInfos = TempSteamworksEconomy.econInfo;
@@ -98,35 +111,35 @@ namespace MCustomCosmetics
             var type = info.type.ToLower();
             if (type.Contains("backpack"))
             {
-                MCustomCosmetics.Instance.pData.data[id].Backpack = info.itemdefid;
+                MCustomCosmetics.Instance.pData.data[id].Outfits[MCustomCosmetics.Instance.pData.data[id].SelectedFit].Backpack = info.itemdefid;
             }
             else if (type.Contains("glasses"))
             {
-                MCustomCosmetics.Instance.pData.data[id].Glasses = info.itemdefid;
+                MCustomCosmetics.Instance.pData.data[id].Outfits[MCustomCosmetics.Instance.pData.data[id].SelectedFit].Glasses = info.itemdefid;
             }
             else if (type.Contains("hat"))
             {
-                MCustomCosmetics.Instance.pData.data[id].Hat = info.itemdefid;
+                MCustomCosmetics.Instance.pData.data[id].Outfits[MCustomCosmetics.Instance.pData.data[id].SelectedFit].Hat = info.itemdefid;
             }
             else if (type.Contains("mask"))
             {
-                MCustomCosmetics.Instance.pData.data[id].Mask = info.itemdefid;
+                MCustomCosmetics.Instance.pData.data[id].Outfits[MCustomCosmetics.Instance.pData.data[id].SelectedFit].Mask = info.itemdefid;
             }
             else if (type.Contains("pants"))
             {
-                MCustomCosmetics.Instance.pData.data[id].Pants = info.itemdefid;
+                MCustomCosmetics.Instance.pData.data[id].Outfits[MCustomCosmetics.Instance.pData.data[id].SelectedFit].Pants = info.itemdefid;
             }
             else if (type.Contains("shirt"))
             {
-                MCustomCosmetics.Instance.pData.data[id].Shirt = info.itemdefid;
+                MCustomCosmetics.Instance.pData.data[id].Outfits[MCustomCosmetics.Instance.pData.data[id].SelectedFit].Shirt = info.itemdefid;
             }
             else if (type.Contains("vest"))
             {
-                MCustomCosmetics.Instance.pData.data[id].Vest = info.itemdefid;
+                MCustomCosmetics.Instance.pData.data[id].Outfits[MCustomCosmetics.Instance.pData.data[id].SelectedFit].Vest = info.itemdefid;
             }
             else if (type.Contains("skin"))
             {
-                MCustomCosmetics.Instance.pData.data[id].skins[info.itemdefid] = mythic;
+                MCustomCosmetics.Instance.pData.data[id].Outfits[MCustomCosmetics.Instance.pData.data[id].SelectedFit].skins[info.itemdefid] = mythic;
             }
             return type;
         }

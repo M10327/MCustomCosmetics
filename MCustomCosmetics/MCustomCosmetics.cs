@@ -83,25 +83,35 @@ namespace MCustomCosmetics
             if (MCustomCosmetics.Instance.pData.data.ContainsKey((ulong)player))
             {
                 var pData = MCustomCosmetics.Instance.pData.data[(ulong)player];
-                if (pData.Hat != 0) pending.hatItem = pData.Hat;
-                if (pData.Mask != 0) pending.maskItem = pData.Mask;
-                if (pData.Glasses != 0) pending.glassesItem = pData.Glasses;
-                if (pData.Backpack != 0) pending.backpackItem = pData.Backpack;
-                if (pData.Shirt != 0) pending.shirtItem = pData.Shirt;
-                if (pData.Vest != 0) pending.vestItem = pData.Vest;
-                if (pData.Pants != 0) pending.pantsItem = pData.Pants;
-                List<int> newItems = pending.skinItems.ToList();
-                List<string> newTags = pending.skinTags.ToList();
-                List<string> newProps = pending.skinDynamicProps.ToList();
-                foreach (var x in pData.skins)
+                if (!pData.Outfits.ContainsKey(pData.SelectedFit))
                 {
-                    newItems.Add(x.Key);
-                    newTags.Add(x.Value);
-                    newProps.Add("");
+                    pData.SelectedFit = "none";
+                    MCustomCosmetics.Instance.pData.data[(ulong)player].SelectedFit = "none";
+                    MCustomCosmetics.Instance.pData.CommitToFile();
+
                 }
-                pending.skinItems = newItems.ToArray();
-                pending.skinTags = newTags.ToArray();
-                pending.skinDynamicProps = newProps.ToArray();
+                if (pData.SelectedFit != "none")
+                {
+                    if (pData.Outfits[pData.SelectedFit].Hat != 0) pending.hatItem = pData.Outfits[pData.SelectedFit].Hat;
+                    if (pData.Outfits[pData.SelectedFit].Mask != 0) pending.maskItem = pData.Outfits[pData.SelectedFit].Mask;
+                    if (pData.Outfits[pData.SelectedFit].Glasses != 0) pending.glassesItem = pData.Outfits[pData.SelectedFit].Glasses;
+                    if (pData.Outfits[pData.SelectedFit].Backpack != 0) pending.backpackItem = pData.Outfits[pData.SelectedFit].Backpack;
+                    if (pData.Outfits[pData.SelectedFit].Shirt != 0) pending.shirtItem = pData.Outfits[pData.SelectedFit].Shirt;
+                    if (pData.Outfits[pData.SelectedFit].Vest != 0) pending.vestItem = pData.Outfits[pData.SelectedFit].Vest;
+                    if (pData.Outfits[pData.SelectedFit].Pants != 0) pending.pantsItem = pData.Outfits[pData.SelectedFit].Pants;
+                    List<int> newItems = pending.skinItems.ToList();
+                    List<string> newTags = pending.skinTags.ToList();
+                    List<string> newProps = pending.skinDynamicProps.ToList();
+                    foreach (var x in pData.Outfits[pData.SelectedFit].skins)
+                    {
+                        newItems.Add(x.Key);
+                        newTags.Add(x.Value);
+                        newProps.Add("");
+                    }
+                    pending.skinItems = newItems.ToArray();
+                    pending.skinTags = newTags.ToArray();
+                    pending.skinDynamicProps = newProps.ToArray();
+                }
             }
             if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Enabled)
             {

@@ -30,19 +30,24 @@ namespace MCustomCosmetics
             string skins = "Equipped weapon skins: ";
             if (MCustomCosmetics.Instance.pData.data.ContainsKey(playerId))
             {
+                if (!MCustomCosmetics.Instance.pData.data[playerId].Outfits.ContainsKey(MCustomCosmetics.Instance.pData.data[playerId].SelectedFit))
+                {
+                    UnturnedChat.Say(caller, "You do not have a selected outfit! Select one with /outfit");
+                    return;
+                }
                 var pData = MCustomCosmetics.Instance.pData.data[playerId];
                 string clothingSkins = $"" +
-                    $"Hat: {FindCosmetic(pData.Hat)} " +
-                    $"Mask: {FindCosmetic(pData.Mask)} " +
-                    $"Glasses: {FindCosmetic(pData.Glasses)} " +
-                    $"Backpack: {FindCosmetic(pData.Backpack)} " +
-                    $"Shirt: {FindCosmetic(pData.Shirt)} " +
-                    $"Vest: {FindCosmetic(pData.Vest)} " +
-                    $"Pants: {FindCosmetic(pData.Pants)}";
+                    $"Hat: {FindCosmetic(pData.Outfits[pData.SelectedFit].Hat)} " +
+                    $"Mask: {FindCosmetic(pData.Outfits[pData.SelectedFit].Mask)} " +
+                    $"Glasses: {FindCosmetic(pData.Outfits[pData.SelectedFit].Glasses)} " +
+                    $"Backpack: {FindCosmetic(pData.Outfits[pData.SelectedFit].Backpack)} " +
+                    $"Shirt: {FindCosmetic(pData.Outfits[pData.SelectedFit].Shirt)} " +
+                    $"Vest: {FindCosmetic(pData.Outfits[pData.SelectedFit].Vest)} " +
+                    $"Pants: {FindCosmetic(pData.Outfits[pData.SelectedFit].Pants)}";
                 UnturnedChat.Say(caller, clothingSkins);
-                if (pData.skins.Count >= 1)
+                if (pData.Outfits[pData.SelectedFit].skins.Count >= 1)
                 {
-                    foreach (var x in pData.skins)
+                    foreach (var x in pData.Outfits[pData.SelectedFit].skins)
                     {
                         skins += FindCosmetic(x.Key) + ", ";
                     }

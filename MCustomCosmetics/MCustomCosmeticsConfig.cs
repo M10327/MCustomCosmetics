@@ -10,8 +10,10 @@ namespace MCustomCosmetics
     public class MCustomCosmeticsConfig : IRocketPluginConfiguration
     {
         public GlobalCosmeticSettings globalCosmeticSettings;
+        public int OutfitLimit;
         public void LoadDefaults()
         {
+            OutfitLimit = 5;
             globalCosmeticSettings = new GlobalCosmeticSettings()
             {
                 Enabled = false,

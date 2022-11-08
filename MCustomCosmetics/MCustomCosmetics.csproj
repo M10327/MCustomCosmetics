@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="CommandCosmetic.cs" />
     <Compile Include="CommandListCosmetics.cs" />
+    <Compile Include="CommandOutfit.cs" />
     <Compile Include="CommandToggleGlobalCos.cs" />
     <Compile Include="MCustomCosmeticsConfig.cs" />
     <Compile Include="PlayerData.cs" />

@@ -39,6 +39,12 @@ namespace MCustomCosmetics
 
     public class PlayerCosmetic
     {
+        public string SelectedFit { get; set; }
+        public Dictionary<string, Outfit> Outfits { get; set; }
+    }
+
+    public class Outfit
+    {
         public int Hat;
         public int Mask;
         public int Glasses;
