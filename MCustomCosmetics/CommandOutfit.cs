@@ -18,7 +18,7 @@ namespace MCustomCosmetics
 
         public string Help => "Change or manage outfits";
 
-        public string Syntax => "/outfit <create/delete/select/list> (name)";
+        public string Syntax => "/outfit <create/delete/select/list/clone> (name)";
 
         public List<string> Aliases => new List<string>();
 
@@ -34,7 +34,7 @@ namespace MCustomCosmetics
             }
             if (command.Length < 1)
             {
-                UnturnedChat.Say(caller, Syntax);
+                UnturnedChat.Say(caller, $"Selected:{MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit} : {Syntax}");
                 return;
             }
             List<string> fits = new List<string>();
@@ -73,11 +73,37 @@ namespace MCustomCosmetics
                         Glasses = 0,
                         Backpack = 0,
                         Shirt = 0,
+                        Pants = 0,
                         Vest = 0,
                         skins = new Dictionary<int, string>()
                     };
                     MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit = command[1];
                     UnturnedChat.Say(caller, $"Created and equipped outfit: {command[1]}");
+                    MCustomCosmetics.Instance.pData.CommitToFile();
+                    break;
+                case "clone":
+                    if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.Count >= MCustomCosmetics.Instance.Configuration.Instance.OutfitLimit)
+                    {
+                        UnturnedChat.Say(caller, "You cannot create any more outfits! Please remove one first.");
+                        return;
+                    }
+                    if (!MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.ContainsKey(command[1]))
+                    {
+                        UnturnedChat.Say(caller, "That is not a valid outfit you own!");
+                        return;
+                    }
+                    MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[$"{command[1]}2"] = new Outfit()
+                    {
+                        Hat = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Hat,
+                        Mask = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Mask,
+                        Glasses = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Glasses,
+                        Backpack = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Backpack,
+                        Shirt = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Shirt,
+                        Pants = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Pants,
+                        Vest = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Vest,
+                        skins = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].skins
+                    };
+                    UnturnedChat.Say(caller, $"Cloned outfit {command[1]} named {command[1]}2");
                     MCustomCosmetics.Instance.pData.CommitToFile();
                     break;
                 case "delete":
