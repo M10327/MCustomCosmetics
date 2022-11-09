@@ -51,6 +51,11 @@ namespace MCustomCosmetics
                 }
                 if (bar.interactable is InteractableMannequin man)
                 {
+                    if (man.hat != 0 || man.backpack != 0 || man.glasses != 0 || man.mask != 0 || man.shirt != 0 || man.vest != 0 || man.pants != 0)
+                    {
+                        UnturnedChat.Say(caller, "Please remove any items from the mannequin first!");
+                        return;
+                    }
                     var search = command[0];
                     var econInfos = TempSteamworksEconomy.econInfo;
                     UnturnedEconInfo cosmetic;
