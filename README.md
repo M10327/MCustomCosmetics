@@ -13,6 +13,7 @@ All permissions are just the command name. You can use the itemdefid (found in t
 - /listcosmetics : lists all cosmetics you have applied via the plugin. 
 - /togglecos : Toggles whether the global cosmetics applies to you. 
 - /outfit <create/delete/select/list/clone> (name) : Manage outfits
+- /hair <none> or <r> <g> <b> : Sets the hair color for your current outfit
 
 ### Default Aliases:
 - /cosmetic : /cos
