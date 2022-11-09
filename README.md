@@ -14,9 +14,11 @@ All permissions are just the command name. You can use the itemdefid (found in t
 - /togglecos : Toggles whether the global cosmetics applies to you. 
 - /outfit <create/delete/select/list/clone> (name) : Manage outfits
 - /hair <none> or <r> <g> <b> : Sets the hair color for your current outfit
+- /mannequin <itemdefid or name> : Applies the cosmetic to the mannequin you are looking at
 
 ### Default Aliases:
 - /cosmetic : /cos
 - /removecosmetic : /rcos
 - /listcosmetics : /lcos
 - /togglecos : /tcos
+- /mannequin : /ma
