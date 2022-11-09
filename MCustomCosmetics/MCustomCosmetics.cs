@@ -26,6 +26,7 @@ namespace MCustomCosmetics
             Instance = this;
             pData = new PlayerData();
             pData.Reload();
+            pData.CommitToFile();
             Patches.PatchAll();
 
             // mythics dict for plugin
@@ -107,7 +108,7 @@ namespace MCustomCosmetics
             [HarmonyPatch("accept")]
             [HarmonyPatch(new Type[] { typeof(SteamPlayerID), typeof(bool), typeof(bool), typeof(byte), typeof(byte), typeof(byte), typeof(Color), typeof(Color), typeof(Color), typeof(bool), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int[]), typeof(string[]), typeof(string[]), typeof(EPlayerSkillset), typeof(string), typeof(CSteamID), typeof(EClientPlatform) })]
             [HarmonyPrefix]
-            static void Accept(SteamPlayerID playerID, bool isPro, bool isAdmin, byte face, byte hair, byte beard, Color skin, Color color, Color markerColor, bool hand, ref int shirtItem, ref int pantsItem, ref int hatItem, ref int backpackItem, ref int vestItem, ref int maskItem, ref int glassesItem, ref int[] skinItems, ref string[] skinTags, ref string[] skinDynamicProps, EPlayerSkillset skillset, string language, CSteamID lobbyID)
+            static void Accept(SteamPlayerID playerID, bool isPro, bool isAdmin, byte face, byte hair, byte beard, Color skin, ref Color color, Color markerColor, bool hand, ref int shirtItem, ref int pantsItem, ref int hatItem, ref int backpackItem, ref int vestItem, ref int maskItem, ref int glassesItem, ref int[] skinItems, ref string[] skinTags, ref string[] skinDynamicProps, EPlayerSkillset skillset, string language, CSteamID lobbyID)
             {
                 if (MCustomCosmetics.Instance.pData.data.ContainsKey((ulong)playerID.steamID))
                 {
@@ -128,6 +129,10 @@ namespace MCustomCosmetics
                         if (pData.Outfits[pData.SelectedFit].Shirt != 0) shirtItem = pData.Outfits[pData.SelectedFit].Shirt;
                         if (pData.Outfits[pData.SelectedFit].Vest != 0) vestItem = pData.Outfits[pData.SelectedFit].Vest;
                         if (pData.Outfits[pData.SelectedFit].Pants != 0) pantsItem = pData.Outfits[pData.SelectedFit].Pants;
+                        if (pData.Outfits[pData.SelectedFit].Hair != null)
+                        {
+                            color = new Color(pData.Outfits[pData.SelectedFit].Hair.R / 255, pData.Outfits[pData.SelectedFit].Hair.G / 255, pData.Outfits[pData.SelectedFit].Hair.B / 255);
+                        }
                         List<int> newItems = skinItems.ToList();
                         List<string> newTags = skinTags.ToList();
                         List<string> newProps = skinDynamicProps.ToList();

@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandCosmetic.cs" />
+    <Compile Include="CommandHair.cs" />
     <Compile Include="CommandListCosmetics.cs" />
     <Compile Include="CommandOutfit.cs" />
     <Compile Include="CommandToggleGlobalCos.cs" />

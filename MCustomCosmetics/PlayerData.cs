@@ -52,7 +52,21 @@ namespace MCustomCosmetics
         public int Shirt;
         public int Vest;
         public int Pants;
+        public HairColor Hair;
         public Dictionary<int, string> skins;
+    }
+
+    public class HairColor
+    {
+        public HairColor(float rr, float gg, float bb)
+        {
+            R = rr;
+            G = gg;
+            B = bb;
+        }
+        public float R;
+        public float G;
+        public float B;
     }
 
     public class DataStorage<T> where T : class
