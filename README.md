@@ -9,12 +9,12 @@ All permissions are just the command name. You can use the itemdefid (found in t
 ### Commands:
 - /cosmetic mythics : Shows available mythic effects
 - /cosmetic < itemdefid or name > (mythical effect) : Add a cosmetic and optionally a mythic effect. Mythic effects only apply to weapons
-- /removecosetic <all/id/hat/glasses/mask/backpack/vest/shirt/pants> : removes all or just one cosmetic you have applied via the plugin.
+- /removecosetic < all/id/hat/glasses/mask/backpack/vest/shirt/pants > : removes all or just one cosmetic you have applied via the plugin.
 - /listcosmetics : lists all cosmetics you have applied via the plugin. 
 - /togglecos : Toggles whether the global cosmetics applies to you. 
-- /outfit <create/delete/select/list/clone> (name) : Manage outfits
-- /hair <none> or <r> <g> <b> : Sets the hair color for your current outfit
-- /mannequin <itemdefid or name> : Applies the cosmetic to the mannequin you are looking at
+- /outfit < create/delete/select/list/clone > (name) : Manage outfits
+- /hair < none > or < r > < g > < b > : Sets the hair color for your current outfit
+- /mannequin < itemdefid or name > : Applies the cosmetic to the mannequin you are looking at
 
 ### Default Aliases:
 - /cosmetic : /cos
