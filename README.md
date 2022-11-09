@@ -1,5 +1,7 @@
 # MCustomCosmetics
 
+Requires [Harmony Patcher](https://github.com/pardeike/Harmony/releases/tag/v2.2.2.0)
+
 Unturned plugin for applying any possible cosmetic to yourself via command or globally via the config.
 
 All permissions are just the command name. You can use the itemdefid (found in the game's econinfo.json) or cosmetic name to apply them. Requires relogging to update your cosmetics. To globally disable a cosmetic slot (ie: prevent anyone from wearing backpacks) turn on global cosmetics and set the id in that slot to -1

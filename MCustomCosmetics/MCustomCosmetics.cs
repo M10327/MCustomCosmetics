@@ -1,4 +1,5 @@
-﻿using Rocket.Core.Assets;
+﻿using HarmonyLib;
+using Rocket.Core.Assets;
 using Rocket.Core.Plugins;
 using Rocket.Unturned;
 using Rocket.Unturned.Permissions;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace MCustomCosmetics
 {
@@ -24,7 +26,7 @@ namespace MCustomCosmetics
             Instance = this;
             pData = new PlayerData();
             pData.Reload();
-            UnturnedPermissions.OnJoinRequested += OnJoinReq;
+            Patches.PatchAll();
 
             // mythics dict for plugin
             mythics = new Dictionary<string, string>();
@@ -78,73 +80,94 @@ namespace MCustomCosmetics
             Rocket.Core.Logging.Logger.Log($"{Name} {Assembly.GetName().Version} has been loaded!");
         }
 
-        private void OnJoinReq(CSteamID player, ref ESteamRejection? rejectionReason)
-        {
-            var pending = Provider.pending.FirstOrDefault(x => x.playerID.steamID == player);
-            if (MCustomCosmetics.Instance.pData.data.ContainsKey((ulong)player))
-            {
-                var pData = MCustomCosmetics.Instance.pData.data[(ulong)player];
-                if (!pData.Outfits.ContainsKey(pData.SelectedFit))
-                {
-                    pData.SelectedFit = "none";
-                    MCustomCosmetics.Instance.pData.data[(ulong)player].SelectedFit = "none";
-                    MCustomCosmetics.Instance.pData.CommitToFile();
-
-                }
-                if (pData.SelectedFit != "none")
-                {
-                    if (pData.Outfits[pData.SelectedFit].Hat != 0) pending.hatItem = pData.Outfits[pData.SelectedFit].Hat;
-                    if (pData.Outfits[pData.SelectedFit].Mask != 0) pending.maskItem = pData.Outfits[pData.SelectedFit].Mask;
-                    if (pData.Outfits[pData.SelectedFit].Glasses != 0) pending.glassesItem = pData.Outfits[pData.SelectedFit].Glasses;
-                    if (pData.Outfits[pData.SelectedFit].Backpack != 0) pending.backpackItem = pData.Outfits[pData.SelectedFit].Backpack;
-                    if (pData.Outfits[pData.SelectedFit].Shirt != 0) pending.shirtItem = pData.Outfits[pData.SelectedFit].Shirt;
-                    if (pData.Outfits[pData.SelectedFit].Vest != 0) pending.vestItem = pData.Outfits[pData.SelectedFit].Vest;
-                    if (pData.Outfits[pData.SelectedFit].Pants != 0) pending.pantsItem = pData.Outfits[pData.SelectedFit].Pants;
-                    List<int> newItems = pending.skinItems.ToList();
-                    List<string> newTags = pending.skinTags.ToList();
-                    List<string> newProps = pending.skinDynamicProps.ToList();
-                    foreach (var x in pData.Outfits[pData.SelectedFit].skins)
-                    {
-                        newItems.Add(x.Key);
-                        newTags.Add(x.Value);
-                        newProps.Add("");
-                    }
-                    pending.skinItems = newItems.ToArray();
-                    pending.skinTags = newTags.ToArray();
-                    pending.skinDynamicProps = newProps.ToArray();
-                }
-            }
-            if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Enabled)
-            {
-                if (!MCustomCosmetics.Instance.globalCos.ContainsKey((ulong)player))
-                {
-                    MCustomCosmetics.Instance.globalCos[(ulong)player] = true;
-                }
-                if (!MCustomCosmetics.Instance.globalCos[(ulong)player])
-                {
-                    return;
-                }
-                if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Hat > 0) pending.hatItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Hat;
-                else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Hat == -1) pending.hatItem = 0;
-                if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Mask > 0) pending.maskItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Mask;
-                else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Mask == -1) pending.maskItem = 0;
-                if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Glasses > 0) pending.glassesItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Glasses;
-                else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Glasses == -1) pending.glassesItem = 0;
-                if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Backpack > 0) pending.backpackItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Backpack;
-                else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Backpack == -1) pending.backpackItem = 0;
-                if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Shirt > 0) pending.shirtItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Shirt;
-                else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Shirt == -1) pending.shirtItem = 0;
-                if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Vest > 0) pending.vestItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Vest;
-                else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Vest == -1) pending.vestItem = 0;
-                if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Pants > 0) pending.pantsItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Pants;
-                else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Pants == -1) pending.pantsItem = 0;
-            }
-        }
-
         protected override void Unload()
         {
             pData.CommitToFile();
-            UnturnedPermissions.OnJoinRequested -= OnJoinReq;
+            Patches.UnpatchAll();
+        }
+    }
+
+    internal class Patches
+    {
+        private static Harmony PatcherInstance;
+        internal static void PatchAll()
+        {
+            PatcherInstance = new Harmony("MCustomCosmetics");
+            PatcherInstance.PatchAll();
+        }
+        internal static void UnpatchAll()
+        {
+            PatcherInstance.UnpatchAll("MCustomCosmetics");
+        }
+
+        [HarmonyPatch]
+        internal class ProviderAccept
+        {
+            [HarmonyPatch(typeof(Provider))]
+            [HarmonyPatch("accept")]
+            [HarmonyPatch(new Type[] { typeof(SteamPlayerID), typeof(bool), typeof(bool), typeof(byte), typeof(byte), typeof(byte), typeof(Color), typeof(Color), typeof(Color), typeof(bool), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int[]), typeof(string[]), typeof(string[]), typeof(EPlayerSkillset), typeof(string), typeof(CSteamID), typeof(EClientPlatform) })]
+            [HarmonyPrefix]
+            static void Accept(SteamPlayerID playerID, bool isPro, bool isAdmin, byte face, byte hair, byte beard, Color skin, Color color, Color markerColor, bool hand, ref int shirtItem, ref int pantsItem, ref int hatItem, ref int backpackItem, ref int vestItem, ref int maskItem, ref int glassesItem, ref int[] skinItems, ref string[] skinTags, ref string[] skinDynamicProps, EPlayerSkillset skillset, string language, CSteamID lobbyID)
+            {
+                if (MCustomCosmetics.Instance.pData.data.ContainsKey((ulong)playerID.steamID))
+                {
+                    var pData = MCustomCosmetics.Instance.pData.data[(ulong)playerID.steamID];
+                    if (!pData.Outfits.ContainsKey(pData.SelectedFit))
+                    {
+                        pData.SelectedFit = "none";
+                        MCustomCosmetics.Instance.pData.data[(ulong)playerID.steamID].SelectedFit = "none";
+                        MCustomCosmetics.Instance.pData.CommitToFile();
+
+                    }
+                    if (pData.SelectedFit != "none")
+                    {
+                        if (pData.Outfits[pData.SelectedFit].Hat != 0) hatItem = pData.Outfits[pData.SelectedFit].Hat;
+                        if (pData.Outfits[pData.SelectedFit].Mask != 0) maskItem = pData.Outfits[pData.SelectedFit].Mask;
+                        if (pData.Outfits[pData.SelectedFit].Glasses != 0) glassesItem = pData.Outfits[pData.SelectedFit].Glasses;
+                        if (pData.Outfits[pData.SelectedFit].Backpack != 0) backpackItem = pData.Outfits[pData.SelectedFit].Backpack;
+                        if (pData.Outfits[pData.SelectedFit].Shirt != 0) shirtItem = pData.Outfits[pData.SelectedFit].Shirt;
+                        if (pData.Outfits[pData.SelectedFit].Vest != 0) vestItem = pData.Outfits[pData.SelectedFit].Vest;
+                        if (pData.Outfits[pData.SelectedFit].Pants != 0) pantsItem = pData.Outfits[pData.SelectedFit].Pants;
+                        List<int> newItems = skinItems.ToList();
+                        List<string> newTags = skinTags.ToList();
+                        List<string> newProps = skinDynamicProps.ToList();
+                        foreach (var x in pData.Outfits[pData.SelectedFit].skins)
+                        {
+                            newItems.Add(x.Key);
+                            newTags.Add(x.Value);
+                            newProps.Add("");
+                        }
+                        skinItems = newItems.ToArray();
+                        skinTags = newTags.ToArray();
+                        skinDynamicProps = newProps.ToArray();
+                    }
+                }
+                if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Enabled)
+                {
+                    if (!MCustomCosmetics.Instance.globalCos.ContainsKey((ulong)playerID.steamID))
+                    {
+                        MCustomCosmetics.Instance.globalCos[(ulong)playerID.steamID] = true;
+                    }
+                    if (!MCustomCosmetics.Instance.globalCos[(ulong)playerID.steamID])
+                    {
+                        return;
+                    }
+                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Hat > 0) hatItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Hat;
+                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Hat == -1) hatItem = 0;
+                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Mask > 0) maskItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Mask;
+                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Mask == -1) maskItem = 0;
+                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Glasses > 0) glassesItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Glasses;
+                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Glasses == -1) glassesItem = 0;
+                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Backpack > 0) backpackItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Backpack;
+                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Backpack == -1) backpackItem = 0;
+                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Shirt > 0) shirtItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Shirt;
+                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Shirt == -1) shirtItem = 0;
+                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Vest > 0) vestItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Vest;
+                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Vest == -1) vestItem = 0;
+                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Pants > 0) pantsItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Pants;
+                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Pants == -1) pantsItem = 0;
+                }
+            }
         }
     }
 }
