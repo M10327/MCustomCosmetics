@@ -17,6 +17,7 @@ namespace MCustomCosmetics
             globalCosmeticSettings = new GlobalCosmeticSettings()
             {
                 Enabled = false,
+                OverridePersonalCosmetics = true,
                 Hat = 0,
                 Mask = 0,
                 Glasses = 0,
@@ -31,6 +32,7 @@ namespace MCustomCosmetics
     public class GlobalCosmeticSettings
     {
         public bool Enabled;
+        public bool OverridePersonalCosmetics;
         public int Hat;
         public int Mask;
         public int Glasses;

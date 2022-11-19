@@ -142,6 +142,9 @@ namespace MCustomCosmetics
                             newTags.Add(x.Value);
                             newProps.Add("");
                         }
+                        newItems.Reverse();
+                        newTags.Reverse();
+                        newProps.Reverse();
                         skinItems = newItems.ToArray();
                         skinTags = newTags.ToArray();
                         skinDynamicProps = newProps.ToArray();
@@ -157,20 +160,35 @@ namespace MCustomCosmetics
                     {
                         return;
                     }
-                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Hat > 0) hatItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Hat;
-                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Hat == -1) hatItem = 0;
-                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Mask > 0) maskItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Mask;
-                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Mask == -1) maskItem = 0;
-                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Glasses > 0) glassesItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Glasses;
-                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Glasses == -1) glassesItem = 0;
-                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Backpack > 0) backpackItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Backpack;
-                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Backpack == -1) backpackItem = 0;
-                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Shirt > 0) shirtItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Shirt;
-                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Shirt == -1) shirtItem = 0;
-                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Vest > 0) vestItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Vest;
-                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Vest == -1) vestItem = 0;
-                    if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Pants > 0) pantsItem = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Pants;
-                    else if (MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings.Pants == -1) pantsItem = 0;
+                    var gcos = MCustomCosmetics.Instance.Configuration.Instance.globalCosmeticSettings;
+                    if (gcos.Hat > 0) 
+                        if (gcos.OverridePersonalCosmetics || (!gcos.OverridePersonalCosmetics && hatItem == 0))
+                            hatItem = gcos.Hat;
+                    else if (gcos.Hat == -1) hatItem = 0;
+                    if (gcos.Mask > 0)
+                        if (gcos.OverridePersonalCosmetics || (!gcos.OverridePersonalCosmetics && maskItem == 0))
+                            maskItem = gcos.Mask;
+                    else if (gcos.Mask == -1) maskItem = 0;
+                    if (gcos.Glasses > 0)
+                        if (gcos.OverridePersonalCosmetics || (!gcos.OverridePersonalCosmetics && glassesItem == 0))
+                            glassesItem = gcos.Glasses;
+                    else if (gcos.Glasses == -1) glassesItem = 0;
+                    if (gcos.Backpack > 0)
+                        if (gcos.OverridePersonalCosmetics || (!gcos.OverridePersonalCosmetics && backpackItem == 0))
+                            backpackItem = gcos.Backpack;
+                    else if (gcos.Backpack == -1) backpackItem = 0;
+                    if (gcos.Shirt > 0)
+                        if (gcos.OverridePersonalCosmetics || (!gcos.OverridePersonalCosmetics && shirtItem == 0))
+                            shirtItem = gcos.Shirt;
+                    else if (gcos.Shirt == -1) shirtItem = 0;
+                    if (gcos.Vest > 0)
+                        if (gcos.OverridePersonalCosmetics || (!gcos.OverridePersonalCosmetics && vestItem == 0))
+                            vestItem = gcos.Vest;
+                    else if (gcos.Vest == -1) vestItem = 0;
+                    if (gcos.Pants > 0)
+                        if (gcos.OverridePersonalCosmetics || (!gcos.OverridePersonalCosmetics && pantsItem == 0))
+                            pantsItem = gcos.Pants;
+                    else if (gcos.Pants == -1) pantsItem = 0;
                 }
             }
         }
