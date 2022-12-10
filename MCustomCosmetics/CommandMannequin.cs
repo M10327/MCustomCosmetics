@@ -25,7 +25,7 @@ namespace MCustomCosmetics
 
         public List<string> Aliases => new List<string>() { "ma" };
 
-        public List<string> Permissions => new List<string>();
+        public List<string> Permissions => new List<string>() { "mannequin" };
 
         public void Execute(IRocketPlayer caller, string[] command)
         {

@@ -22,7 +22,7 @@ namespace MCustomCosmetics
 
         public List<string> Aliases => new List<string>() { "lcos" };
 
-        public List<string> Permissions => new List<string>();
+        public List<string> Permissions => new List<string>() { "listcosmetics" };
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
