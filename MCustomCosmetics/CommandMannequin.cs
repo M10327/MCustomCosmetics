@@ -35,7 +35,7 @@ namespace MCustomCosmetics
                 return;
             }
             UnturnedPlayer p = caller as UnturnedPlayer;
-            PhysicsEx.Raycast(new Ray(p.Player.look.aim.position, p.Player.look.aim.forward), out var hit, 20, RayMasks.BARRICADE);
+            Physics.Raycast(new Ray(p.Player.look.aim.position, p.Player.look.aim.forward), out var hit, 20, RayMasks.BARRICADE);
             if (hit.collider != null)
             {
                 var bar = BarricadeManager.FindBarricadeByRootTransform(hit.collider.transform.root);
