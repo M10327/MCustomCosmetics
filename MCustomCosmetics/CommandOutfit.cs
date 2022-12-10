@@ -61,7 +61,7 @@ namespace MCustomCosmetics
             switch (command[0].ToLower())
             {
                 case "create":
-                    if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.Count >= MCustomCosmetics.Instance.Configuration.Instance.OutfitLimit)
+                    if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.Count >= MCustomCosmetics.Instance.Configuration.Instance.OutfitLimit && !p.HasPermission("OutfitBypassLimit"))
                     {
                         UnturnedChat.Say(caller, "You cannot create any more outfits! Please remove one first.");
                         return;
@@ -82,7 +82,7 @@ namespace MCustomCosmetics
                     MCustomCosmetics.Instance.pData.CommitToFile();
                     break;
                 case "clone":
-                    if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.Count >= MCustomCosmetics.Instance.Configuration.Instance.OutfitLimit)
+                    if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.Count >= MCustomCosmetics.Instance.Configuration.Instance.OutfitLimit && !p.HasPermission("OutfitBypassLimit"))
                     {
                         UnturnedChat.Say(caller, "You cannot create any more outfits! Please remove one first.");
                         return;

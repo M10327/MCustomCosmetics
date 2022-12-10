@@ -79,6 +79,8 @@ namespace MCustomCosmetics
 
             globalCos = new Dictionary<ulong, bool>();
             Rocket.Core.Logging.Logger.Log($"{Name} {Assembly.GetName().Version} has been loaded!");
+            Rocket.Core.Logging.Logger.Log($"Permissions are the command names!");
+            Rocket.Core.Logging.Logger.Log($"Bypass outfit permission is \'OutfitBypassLimit\'");
         }
 
         protected override void Unload()
