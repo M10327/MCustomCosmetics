@@ -27,7 +27,6 @@ namespace MCustomCosmetics
         public void Execute(IRocketPlayer caller, string[] command)
         {
             ulong playerId = (ulong)((UnturnedPlayer)caller).CSteamID;
-            string skins = "Equipped weapon skins: ";
             if (MCustomCosmetics.Instance.pData.data.ContainsKey(playerId))
             {
                 if (!MCustomCosmetics.Instance.pData.data[playerId].Outfits.ContainsKey(MCustomCosmetics.Instance.pData.data[playerId].SelectedFit))
@@ -36,30 +35,42 @@ namespace MCustomCosmetics
                     return;
                 }
                 var pData = MCustomCosmetics.Instance.pData.data[playerId];
-                string clothingSkins = $"" +
-                    $"Hat: {FindCosmetic(pData.Outfits[pData.SelectedFit].Hat)} " +
-                    $"Mask: {FindCosmetic(pData.Outfits[pData.SelectedFit].Mask)} " +
-                    $"Glasses: {FindCosmetic(pData.Outfits[pData.SelectedFit].Glasses)} " +
-                    $"Backpack: {FindCosmetic(pData.Outfits[pData.SelectedFit].Backpack)} " +
-                    $"Shirt: {FindCosmetic(pData.Outfits[pData.SelectedFit].Shirt)} " +
-                    $"Vest: {FindCosmetic(pData.Outfits[pData.SelectedFit].Vest)} " +
-                    $"Pants: {FindCosmetic(pData.Outfits[pData.SelectedFit].Pants)}";
-                UnturnedChat.Say(caller, clothingSkins);
+                UnturnedChat.Say(caller, $"Hat: {FindCosmetic(pData.Outfits[pData.SelectedFit].Hat)}\nMask: {FindCosmetic(pData.Outfits[pData.SelectedFit].Mask)}");
+                UnturnedChat.Say(caller, $"Glasses: {FindCosmetic(pData.Outfits[pData.SelectedFit].Glasses)}\nBackpack: {FindCosmetic(pData.Outfits[pData.SelectedFit].Backpack)}");
+                UnturnedChat.Say(caller, $"Shirt: {FindCosmetic(pData.Outfits[pData.SelectedFit].Shirt)}\nVest: {FindCosmetic(pData.Outfits[pData.SelectedFit].Vest)}");
+                UnturnedChat.Say(caller, $"Pants: {FindCosmetic(pData.Outfits[pData.SelectedFit].Pants)}");
                 if (pData.Outfits[pData.SelectedFit].skins.Count >= 1)
                 {
-                    foreach (var x in pData.Outfits[pData.SelectedFit].skins)
+                    List<string> skins = new List<string>();
+                    foreach (var s in pData.Outfits[pData.SelectedFit].skins)
                     {
-                        skins += FindCosmetic(x.Key) + ", ";
+                        skins.Add(FindCosmetic(s.Key));
                     }
-                    UnturnedChat.Say(caller, skins);
+                    skins.Sort();
+                    List<string> skins2 = new List<string>();
+                    for (int i = 0; i < skins.Count; i += 2)
+                    {
+                        string add = "";
+                        if (skins.Count >= i)
+                        {
+                            add += skins[i];
+                        }
+                        if (skins.Count >= i + 1)
+                        {
+                            add += "\n" + skins[i + 1];
+                        }
+                        skins2.Add(add);
+                    }
+                    foreach (var tell in skins2)
+                    {
+                        UnturnedChat.Say(caller, tell);
+                    }
                 }
-
             }
             else
             {
                 UnturnedChat.Say(caller, "You do not have any cosmetics equipped!");
             }
-            
         }
 
         public string FindCosmetic(int input)
