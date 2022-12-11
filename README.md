@@ -15,7 +15,7 @@ Permission to bypass outfit limit is `OutfitBypassLimit`
 - /outfit < create/delete/select/list/clone > (name) : Manage outfits
 - /hair < none > or < r > < g > < b > : Sets the hair color for your current outfit
 - /mannequin < itemdefid or name > : Applies the cosmetic to the mannequin you are looking at
-
+- /itemdisplay < item id or name > (skin id or name) (mythical) : Set the item display for the barricade you are looking at
 ### Default Aliases:
 - /cosmetic : /cos
 - /removecosmetic : /rcos
