@@ -11,9 +11,11 @@ namespace MCustomCosmetics
     {
         public GlobalCosmeticSettings globalCosmeticSettings;
         public int OutfitLimit;
+        public bool ClearUnsavedOnReboot;
         public void LoadDefaults()
         {
             OutfitLimit = 5;
+            ClearUnsavedOnReboot = false;
             globalCosmeticSettings = new GlobalCosmeticSettings()
             {
                 Enabled = false,

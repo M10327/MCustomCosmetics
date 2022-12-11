@@ -40,6 +40,7 @@ namespace MCustomCosmetics
     public class PlayerCosmetic
     {
         public string SelectedFit { get; set; }
+        public bool AllowSaving { get; set; }
         public Dictionary<string, Outfit> Outfits { get; set; }
     }
 

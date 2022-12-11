@@ -98,6 +98,8 @@ namespace MCustomCosmetics
                     }
                     break;
             }
+            if (p.HasPermission("CosmeticsAllowSaving")) MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].AllowSaving = true;
+            else MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].AllowSaving = false;
             MCustomCosmetics.Instance.pData.CommitToFile();
         }
     }

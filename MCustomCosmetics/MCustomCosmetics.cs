@@ -81,10 +81,21 @@ namespace MCustomCosmetics
             Rocket.Core.Logging.Logger.Log($"{Name} {Assembly.GetName().Version} has been loaded!");
             Rocket.Core.Logging.Logger.Log($"Permissions are the command names!");
             Rocket.Core.Logging.Logger.Log($"Bypass outfit permission is \'OutfitBypassLimit\'");
+            Rocket.Core.Logging.Logger.Log($"Saving outfit permission is \'CosmeticsAllowSaving\'");
         }
 
         protected override void Unload()
         {
+            if (Configuration.Instance.ClearUnsavedOnReboot)
+            {
+                foreach (var item in pData.data.ToArray())
+                {
+                    if (!item.Value.AllowSaving)
+                    {
+                        pData.data.Remove(item.Key);
+                    }
+                }
+            }
             pData.CommitToFile();
             Patches.UnpatchAll();
         }
