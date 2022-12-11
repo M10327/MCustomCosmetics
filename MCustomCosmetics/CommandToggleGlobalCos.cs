@@ -25,6 +25,7 @@ namespace MCustomCosmetics
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
+            var color = MCustomCosmetics.Instance.MessageColor;
             ulong playerId = (ulong)((UnturnedPlayer)caller).CSteamID;
             if (!MCustomCosmetics.Instance.globalCos.ContainsKey(playerId))
             {
@@ -33,12 +34,12 @@ namespace MCustomCosmetics
             if (MCustomCosmetics.Instance.globalCos[playerId])
             {
                 MCustomCosmetics.Instance.globalCos[playerId] = false;
-                UnturnedChat.Say(caller, "You have toggled off global cosmetics. Relog to see the changes");
+                UnturnedChat.Say(caller, "You have toggled off global cosmetics. Relog to see the changes", color);
             }
             else
             {
                 MCustomCosmetics.Instance.globalCos[playerId] = true;
-                UnturnedChat.Say(caller, "You have toggled on global cosmetics. Relog to see the changes");
+                UnturnedChat.Say(caller, "You have toggled on global cosmetics. Relog to see the changes", color);
             }
         }
     }

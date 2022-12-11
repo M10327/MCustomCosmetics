@@ -12,10 +12,12 @@ namespace MCustomCosmetics
         public GlobalCosmeticSettings globalCosmeticSettings;
         public int OutfitLimit;
         public bool ClearUnsavedOnReboot;
+        public string TextColor;
         public void LoadDefaults()
         {
             OutfitLimit = 5;
             ClearUnsavedOnReboot = false;
+            TextColor = "cd87ff";
             globalCosmeticSettings = new GlobalCosmeticSettings()
             {
                 Enabled = false,

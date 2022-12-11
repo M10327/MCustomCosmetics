@@ -29,9 +29,10 @@ namespace MCustomCosmetics
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
+            var color = MCustomCosmetics.Instance.MessageColor;
             if (command.Length < 1)
             {
-                UnturnedChat.Say(caller, Syntax);
+                UnturnedChat.Say(caller, Syntax, color);
                 return;
             }
             ushort itemId = 0;
@@ -47,7 +48,7 @@ namespace MCustomCosmetics
                 var checkItem = UnturnedItems.GetItemAssetByName(command[0]);
                 if (checkItem == null)
                 {
-                    UnturnedChat.Say(caller, "That is not a valid item");
+                    UnturnedChat.Say(caller, "That is not a valid item", color);
                     return;
                 }
                 itemId = checkItem.id;
@@ -62,12 +63,12 @@ namespace MCustomCosmetics
                 cosmetic = int.TryParse(search, out int searchId) ? econInfos.FirstOrDefault(x => x.itemdefid == searchId) : econInfos.FirstOrDefault(x => x.name.ToLower().Contains(search.ToLower()));
                 if (cosmetic == null)
                 {
-                    UnturnedChat.Say(caller, "Cosmetic id " + search + " not found!");
+                    UnturnedChat.Say(caller, $"Cosmetic id {search} not found!", color);
                     return;
                 }
                 if (cosmetic.type.Contains("skin"))
                 {
-                    UnturnedChat.Say(caller, $"{cosmetic.name} cannot be applied to a mannequin!");
+                    UnturnedChat.Say(caller, $"{cosmetic.name} cannot be applied to a mannequin!", color);
                     return;
                 }
                 skinId = Provider.provider.economyService.getInventorySkinID(cosmetic.itemdefid);
@@ -88,33 +89,33 @@ namespace MCustomCosmetics
                 var bar = BarricadeManager.FindBarricadeByRootTransform(hit.collider.transform.root);
                 if (bar.GetServersideData().owner != (ulong)p.CSteamID)
                 {
-                    UnturnedChat.Say(caller, "You are not the owner of this storage!");
+                    UnturnedChat.Say(caller, "You are not the owner of this storage!", color);
                     return;
                 }
                 if (bar.interactable == null)
                 {
-                    UnturnedChat.Say(caller, "That is not a storage!");
+                    UnturnedChat.Say(caller, "That is not a storage!", color);
                     return;
                 }
                 if (bar.interactable is InteractableStorage storage)
                 {
                     if (storage.items.getItemCount() > 0)
                     {
-                        UnturnedChat.Say(caller, "Please remove any items from the storage first!");
+                        UnturnedChat.Say(caller, "Please remove any items from the storage first!", color);
                         return;
                     }
                     BarricadeManager.sendStorageDisplay(hit.collider.transform.root, item, skinId, mythicId, "", "");
-                    UnturnedChat.Say(caller, $"Set item id {item.id} / skin id {skinId} / mythic {mythicId}");
+                    UnturnedChat.Say(caller, $"Set item id {item.id} / skin id {skinId} / mythic {mythicId}", color);
                 }
                 else
                 {
-                    UnturnedChat.Say(caller, "That is not a storage!");
+                    UnturnedChat.Say(caller, "That is not a storage!", color);
                     return;
                 }
             }
             else
             {
-                UnturnedChat.Say(caller, "Could not find a barricade");
+                UnturnedChat.Say(caller, "Could not find a barricade", color);
             }
         }
     }

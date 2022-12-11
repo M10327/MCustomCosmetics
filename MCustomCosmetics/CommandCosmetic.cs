@@ -26,9 +26,10 @@ namespace MCustomCosmetics
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
+            var color = MCustomCosmetics.Instance.MessageColor;
             if (command.Length < 1)
             {
-                UnturnedChat.Say(caller, "Invalid syntax! /cos <itemdefid/mythics> (mythical effect)");
+                UnturnedChat.Say(caller, "Invalid syntax! /cos <itemdefid/mythics> (mythical effect)", color);
                 return;
             }
             if (command[0].ToLower() == "mythics" || command[0].ToLower() == "m")
@@ -66,7 +67,7 @@ namespace MCustomCosmetics
             }
             if (!MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.ContainsKey(MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit))
             {
-                UnturnedChat.Say(caller, "You do not have a selected outfit! Select one with /outfit");
+                UnturnedChat.Say(caller, "You do not have a selected outfit! Select one with /outfit", color);
                 return;
             }
             var search = command[0];
@@ -76,7 +77,7 @@ namespace MCustomCosmetics
 
             if (cosmetic == null)
             {
-                UnturnedChat.Say(caller, "Cosmetic id " + search + " not found!");
+                UnturnedChat.Say(caller, $"Cosmetic id {search} not found!", color);
                 return;
             }
             string mythic = "";
@@ -88,7 +89,7 @@ namespace MCustomCosmetics
                 }
                 else
                 {
-                    UnturnedChat.Say(caller, "Mythic not found! Use /cos mythics");
+                    UnturnedChat.Say(caller, "Mythic not found! Use /cos mythics", color);
                     return;
                 }
             }
@@ -96,11 +97,11 @@ namespace MCustomCosmetics
             if (type.Contains("skin")) allowMythic = true;
             if (allowMythic && command.Length >= 2)
             {
-                UnturnedChat.Say(caller, "Added cosmetic " + cosmetic.name + " with mythic effect " + command[1]);
+                UnturnedChat.Say(caller, "Added cosmetic " + cosmetic.name + " with mythic effect " + command[1], color);
             }
             else
             {
-                UnturnedChat.Say(caller, "Added cosmetic " + cosmetic.name);
+                UnturnedChat.Say(caller, "Added cosmetic " + cosmetic.name, color);
             }
             if (p.HasPermission("CosmeticsAllowSaving")) MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].AllowSaving = true;
             else MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].AllowSaving = false;

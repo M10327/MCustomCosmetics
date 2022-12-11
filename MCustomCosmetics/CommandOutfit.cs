@@ -26,15 +26,16 @@ namespace MCustomCosmetics
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
+            var color = MCustomCosmetics.Instance.MessageColor;
             UnturnedPlayer p = caller as UnturnedPlayer;
             if (!MCustomCosmetics.Instance.pData.data.ContainsKey((ulong)p.CSteamID))
             {
-                UnturnedChat.Say(caller, "You do not have any cosmetics set! Use /cosmetic first");
+                UnturnedChat.Say(caller, "You do not have any cosmetics set! Use /cosmetic first", color);
                 return;
             }
             if (command.Length < 1)
             {
-                UnturnedChat.Say(caller, $"Selected:{MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit} : {Syntax}");
+                UnturnedChat.Say(caller, $"Selected:{MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit} : {Syntax}", color);
                 return;
             }
             List<string> fits = new List<string>();
@@ -44,18 +45,18 @@ namespace MCustomCosmetics
             }
             if (command[0].ToLower() == "list")
             {
-                UnturnedChat.Say(caller, $"Available outfits: None, {string.Join(", ", fits)}");
+                UnturnedChat.Say(caller, $"Available outfits: None, {string.Join(", ", fits)}", color);
                 return;
             }
             else if (command.Length < 2)
             {
-                UnturnedChat.Say(caller, Syntax);
+                UnturnedChat.Say(caller, Syntax, color);
                 return;
             }
             command[1] = Regex.Replace(command[1], "[^A-Za-z0-9]", "");
             if (command[1].Length < 1)
             {
-                UnturnedChat.Say(caller, "Please reformat your outfit name. It must be alphanumeric and at least 1 character long");
+                UnturnedChat.Say(caller, "Please reformat your outfit name. It must be alphanumeric and at least 1 character long", color);
                 return;
             }
             switch (command[0].ToLower())
@@ -63,7 +64,7 @@ namespace MCustomCosmetics
                 case "create":
                     if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.Count >= MCustomCosmetics.Instance.Configuration.Instance.OutfitLimit && !p.HasPermission("OutfitBypassLimit"))
                     {
-                        UnturnedChat.Say(caller, "You cannot create any more outfits! Please remove one first.");
+                        UnturnedChat.Say(caller, "You cannot create any more outfits! Please remove one first.", color);
                         return;
                     }
                     MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]] = new Outfit()
@@ -78,18 +79,18 @@ namespace MCustomCosmetics
                         skins = new Dictionary<int, string>()
                     };
                     MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit = command[1];
-                    UnturnedChat.Say(caller, $"Created and equipped outfit: {command[1]}");
+                    UnturnedChat.Say(caller, $"Created and equipped outfit: {command[1]}", color);
                     MCustomCosmetics.Instance.pData.CommitToFile();
                     break;
                 case "clone":
                     if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.Count >= MCustomCosmetics.Instance.Configuration.Instance.OutfitLimit && !p.HasPermission("OutfitBypassLimit"))
                     {
-                        UnturnedChat.Say(caller, "You cannot create any more outfits! Please remove one first.");
+                        UnturnedChat.Say(caller, "You cannot create any more outfits! Please remove one first.", color);
                         return;
                     }
                     if (!MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.ContainsKey(command[1]))
                     {
-                        UnturnedChat.Say(caller, "That is not a valid outfit you own!");
+                        UnturnedChat.Say(caller, "That is not a valid outfit you own!", color);
                         return;
                     }
                     MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[$"{command[1]}2"] = new Outfit()
@@ -103,14 +104,14 @@ namespace MCustomCosmetics
                         Vest = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Vest,
                         skins = new Dictionary<int, string>(MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].skins)
                     };
-                    UnturnedChat.Say(caller, $"Cloned outfit {command[1]} named {command[1]}2");
+                    UnturnedChat.Say(caller, $"Cloned outfit {command[1]} named {command[1]}2", color);
                     MCustomCosmetics.Instance.pData.CommitToFile();
                     break;
                 case "delete":
                     if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.ContainsKey(command[1]))
                     {
                         MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.Remove(command[1]);
-                        UnturnedChat.Say(caller, $"Deleted outfit {command[1]}");
+                        UnturnedChat.Say(caller, $"Deleted outfit {command[1]}", color);
                         if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit == command[1])
                         {
                             MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit = "none";
@@ -119,7 +120,7 @@ namespace MCustomCosmetics
                     }
                     else
                     {
-                        UnturnedChat.Say(caller, "That is not a valid outfit you own!");
+                        UnturnedChat.Say(caller, "That is not a valid outfit you own!", color);
                         return;
                     }
                     break;
@@ -127,23 +128,23 @@ namespace MCustomCosmetics
                     if (command[1].ToLower() == "none")
                     {
                         MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit = "none";
-                        UnturnedChat.Say(caller, "Removed your outfit");
+                        UnturnedChat.Say(caller, "Removed your outfit", color);
                         MCustomCosmetics.Instance.pData.CommitToFile();
                     }
                     else if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.ContainsKey(command[1]))
                     {
                         MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit = command[1];
-                        UnturnedChat.Say(caller, $"Selecte outfit {command[1]}, Relog to see changes");
+                        UnturnedChat.Say(caller, $"Selecte outfit {command[1]}, Relog to see changes", color);
                         MCustomCosmetics.Instance.pData.CommitToFile();
                     }
                     else
                     {
-                        UnturnedChat.Say(caller, "That is not a valid outfit you own!");
+                        UnturnedChat.Say(caller, "That is not a valid outfit you own!", color);
                         return;
                     }
                     break;
                 default:
-                    UnturnedChat.Say(caller, Syntax);
+                    UnturnedChat.Say(caller, Syntax, color);
                     return;
             }
             if (p.HasPermission("CosmeticsAllowSaving")) MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].AllowSaving = true;

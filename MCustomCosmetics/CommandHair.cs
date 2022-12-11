@@ -25,32 +25,33 @@ namespace MCustomCosmetics
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
+            var color = MCustomCosmetics.Instance.MessageColor;
             UnturnedPlayer p = caller as UnturnedPlayer;
             if (!MCustomCosmetics.Instance.pData.data.ContainsKey((ulong)p.CSteamID))
             {
-                UnturnedChat.Say(caller, "You do not have any cosmetics set! Use /cosmetic first");
+                UnturnedChat.Say(caller, "You do not have any cosmetics set! Use /cosmetic first", color);
                 return;
             }
             if (command.Length < 1)
             {
-                UnturnedChat.Say(caller, Syntax);
+                UnturnedChat.Say(caller, Syntax, color);
                 return;
             }
             if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit == "none")
             {
-                UnturnedChat.Say(caller, "You do not have a selected outfit!");
+                UnturnedChat.Say(caller, "You do not have a selected outfit!", color);
                 return;
             }
             if (command[0].ToLower() == "none")
             {
                 MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit].Hair = null;
-                UnturnedChat.Say(caller, $"Removed the hair on outfit {MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit}");
+                UnturnedChat.Say(caller, $"Removed the hair on outfit {MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit}", color);
                 MCustomCosmetics.Instance.pData.CommitToFile();
                 return;
             }
             if (command.Length < 3)
             {
-                UnturnedChat.Say(caller, Syntax);
+                UnturnedChat.Say(caller, Syntax, color);
                 return;
             }
             if (float.TryParse(command[0], out float r) && float.TryParse(command[1], out float g) && float.TryParse(command[2], out float b))
@@ -59,12 +60,12 @@ namespace MCustomCosmetics
                 if (g > 255) g = 255;
                 if (b > 255) b = 255;
                 MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit].Hair = new HairColor(r, g, b);
-                UnturnedChat.Say(caller, "Set your hair color!");
+                UnturnedChat.Say(caller, "Set your hair color!", color);
                 MCustomCosmetics.Instance.pData.CommitToFile();
             }
             else
             {
-                UnturnedChat.Say(caller, Syntax);
+                UnturnedChat.Say(caller, Syntax, color);
                 return;
             }
             if (p.HasPermission("CosmeticsAllowSaving")) MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].AllowSaving = true;

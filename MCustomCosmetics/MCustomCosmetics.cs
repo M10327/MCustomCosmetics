@@ -2,6 +2,7 @@
 using Rocket.Core.Assets;
 using Rocket.Core.Plugins;
 using Rocket.Unturned;
+using Rocket.Unturned.Chat;
 using Rocket.Unturned.Permissions;
 using SDG.Provider;
 using SDG.Unturned;
@@ -21,6 +22,7 @@ namespace MCustomCosmetics
         public Dictionary<string, string> mythics;
         public PlayerData pData;
         public Dictionary<ulong, bool> globalCos;
+        public UnityEngine.Color MessageColor { get; set; }
         protected override void Load()
         {
             Instance = this;
@@ -28,7 +30,7 @@ namespace MCustomCosmetics
             pData.Reload();
             pData.CommitToFile();
             Patches.PatchAll();
-
+            MessageColor = (Color)UnturnedChat.GetColorFromHex(Configuration.Instance.TextColor);
             // mythics dict for plugin
             mythics = new Dictionary<string, string>();
             mythics["burning"] = "particle_effect:1";
