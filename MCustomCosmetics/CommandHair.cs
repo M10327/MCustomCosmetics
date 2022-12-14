@@ -32,9 +32,16 @@ namespace MCustomCosmetics
                 UnturnedChat.Say(caller, "You do not have any cosmetics set! Use /cosmetic first", color);
                 return;
             }
-            if (command.Length < 1)
+            string wrongSyntax = "";
+            if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit].Hair != null)
             {
-                UnturnedChat.Say(caller, Syntax, color);
+                var hair = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit].Hair;
+                wrongSyntax = $"{hair.R}, {hair.G}, {hair.B} | ";
+            }
+            wrongSyntax += Syntax;
+            if (command.Length < 1)
+            {                
+                UnturnedChat.Say(caller, wrongSyntax, color);
                 return;
             }
             if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit == "none")
@@ -51,7 +58,7 @@ namespace MCustomCosmetics
             }
             if (command.Length < 3)
             {
-                UnturnedChat.Say(caller, Syntax, color);
+                UnturnedChat.Say(caller, wrongSyntax, color);
                 return;
             }
             if (float.TryParse(command[0], out float r) && float.TryParse(command[1], out float g) && float.TryParse(command[2], out float b))
@@ -65,7 +72,7 @@ namespace MCustomCosmetics
             }
             else
             {
-                UnturnedChat.Say(caller, Syntax, color);
+                UnturnedChat.Say(caller, wrongSyntax, color);
                 return;
             }
             if (p.HasPermission("CosmeticsAllowSaving")) MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].AllowSaving = true;
