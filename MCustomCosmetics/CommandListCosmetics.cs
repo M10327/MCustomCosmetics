@@ -52,11 +52,11 @@ namespace MCustomCosmetics
                     for (int i = 0; i < skins.Count; i += 2)
                     {
                         string add = "";
-                        if (skins.Count >= i)
+                        if (skins.Count > i)
                         {
                             add += skins[i];
                         }
-                        if (skins.Count >= i + 1)
+                        if (skins.Count > i + 1)
                         {
                             add += "\n" + skins[i + 1];
                         }
