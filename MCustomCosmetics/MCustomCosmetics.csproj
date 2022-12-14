@@ -83,11 +83,13 @@
     <Compile Include="CommandMannequin.cs" />
     <Compile Include="CommandOutfit.cs" />
     <Compile Include="CommandToggleGlobalCos.cs" />
+    <Compile Include="CommandVehicleSkin.cs" />
     <Compile Include="MCustomCosmeticsConfig.cs" />
     <Compile Include="PlayerData.cs" />
     <Compile Include="MCustomCosmetics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommandRemoveCosmetic.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

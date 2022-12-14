@@ -78,6 +78,11 @@ namespace MCustomCosmetics
             mythics["electrostatic"] = "particle_effect:43";
             //mythics["wicked"] = "particle_effect:44";
             //mythics["palmnights"] = "particle_effect:45";
+            //mythics["icecrown"] = "particle_effect:46";
+            //mythics["firecrown"] = "particle_effect:47";
+            mythics["firefly"] = "particle_effect:48";
+            //mythics["icicles"] = "particle_effect:49";
+            //mythics["snowflake"] = "particle_effect:50";
 
             globalCos = new Dictionary<ulong, bool>();
             Rocket.Core.Logging.Logger.Log($"{Name} {Assembly.GetName().Version} has been loaded!");
