@@ -17,12 +17,15 @@ Permission to save cosmetics (if config option to clear unsaved ones is turned o
 - /hair < none > or < r > < g > < b > : Sets the hair color for your current outfit
 - /mannequin < itemdefid or name > : Applies the cosmetic to the mannequin you are looking at
 - /itemdisplay < item id or name > (skin id or name) (mythical) : Set the item display for the barricade you are looking at
+- /vehicleskin < skin id or name> : Applies a skin to the vehicle you are in. WARNING: This uses unsafe methods and could potentially corrupt your vehicles.dat in your level folder. Use at your own risk.
+
 ### Default Aliases:
 - /cosmetic : /cos
 - /removecosmetic : /rcos
 - /listcosmetics : /lcos
 - /togglecos : /tcos
 - /mannequin : /ma
+- /vehicleskin : /vskin
 
 ### To Do (eventually):
 - Add translations
