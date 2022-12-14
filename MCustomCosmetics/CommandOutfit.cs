@@ -18,7 +18,7 @@ namespace MCustomCosmetics
 
         public string Help => "Change or manage outfits";
 
-        public string Syntax => "/outfit <create/delete/select/list/clone> (name)";
+        public string Syntax => "/outfit <create/delete/select/list/clone/rename> (name)";
 
         public List<string> Aliases => new List<string>();
 
@@ -142,6 +142,32 @@ namespace MCustomCosmetics
                         UnturnedChat.Say(caller, "That is not a valid outfit you own!", color);
                         return;
                     }
+                    break;
+                case "rename":
+                    if (command.Length < 3)
+                    {
+                        UnturnedChat.Say(caller, "/outfit rename <outfit you own> <new name>", color);
+                        return;
+                    }
+                    if (!MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.ContainsKey(command[1]))
+                    {
+                        UnturnedChat.Say(caller, "That is not an outfit you own", color);
+                        return;
+                    }
+                    command[2] = Regex.Replace(command[2], "[^A-Za-z0-9]", "");
+                    if (command[2].Length < 1)
+                    {
+                        UnturnedChat.Say(caller, "Please reformat your outfit name. It must be alphanumeric and at least 1 character long", color);
+                        return;
+                    }
+                    var fit = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]];
+                    MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.Remove(command[1]);
+                    MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits.Add(command[2], fit);
+                    if (MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit == command[1])
+                    {
+                        MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].SelectedFit = command[2];
+                    }
+                    UnturnedChat.Say(caller, $"Renamed outfit {command[1]} to {command[2]}", color);
                     break;
                 default:
                     UnturnedChat.Say(caller, Syntax, color);
