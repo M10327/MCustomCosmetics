@@ -14,6 +14,7 @@ namespace MCustomCosmetics
         public bool ClearUnsavedOnReboot;
         public string TextColor;
         public List<string> BlockedCosmetics;
+        public CosmeticTypeAllow AllowedCosmeticTypes;
         public void LoadDefaults()
         {
             OutfitLimit = 5;
@@ -32,6 +33,16 @@ namespace MCustomCosmetics
                 Pants = 0
             };
             BlockedCosmetics = new List<string>() { "1360", "69200-69201" };
+            AllowedCosmeticTypes = new CosmeticTypeAllow()
+            {
+                Hat = true,
+                Mask = true,
+                Glasses = true,
+                Backpack = true,
+                Shirt = true,
+                Vest = true,
+                Pants = true
+            };
         }
     }
 
@@ -46,5 +57,16 @@ namespace MCustomCosmetics
         public int Shirt;
         public int Vest;
         public int Pants;
+    }
+
+    public class CosmeticTypeAllow
+    {
+        public bool Hat;
+        public bool Mask;
+        public bool Glasses;
+        public bool Backpack;
+        public bool Shirt;
+        public bool Vest;
+        public bool Pants;
     }
 }

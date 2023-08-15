@@ -211,6 +211,7 @@ namespace MCustomCosmetics
                     else if (gcos.Pants == -1) pantsItem = 0;
                 }
 
+                //blocked cosmetics by id
                 List<int> blockedCosmetics = new List<int>();
                 foreach (var str in MCustomCosmetics.Instance.Configuration.Instance.BlockedCosmetics)
                 {
@@ -234,6 +235,16 @@ namespace MCustomCosmetics
                     if (vestItem == b) vestItem = 0;
                     if (pantsItem == b) pantsItem = 0;
                 }
+
+
+                //blocked cosmetics by type
+                if (!MCustomCosmetics.Instance.Configuration.Instance.AllowedCosmeticTypes.Hat) hatItem = 0;
+                if (!MCustomCosmetics.Instance.Configuration.Instance.AllowedCosmeticTypes.Mask) maskItem = 0;
+                if (!MCustomCosmetics.Instance.Configuration.Instance.AllowedCosmeticTypes.Glasses) glassesItem = 0;
+                if (!MCustomCosmetics.Instance.Configuration.Instance.AllowedCosmeticTypes.Backpack) backpackItem = 0;
+                if (!MCustomCosmetics.Instance.Configuration.Instance.AllowedCosmeticTypes.Shirt) shirtItem = 0;
+                if (!MCustomCosmetics.Instance.Configuration.Instance.AllowedCosmeticTypes.Vest) vestItem = 0;
+                if (!MCustomCosmetics.Instance.Configuration.Instance.AllowedCosmeticTypes.Pants) pantsItem = 0;
             }
         }
     }
