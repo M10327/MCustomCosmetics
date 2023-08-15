@@ -102,7 +102,8 @@ namespace MCustomCosmetics
                         Shirt = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Shirt,
                         Pants = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Pants,
                         Vest = MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Vest,
-                        skins = new Dictionary<int, string>(MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].skins)
+                        skins = new Dictionary<int, string>(MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].skins),
+                        Hair = new HairColor(MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Hair.R, MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Hair.G, MCustomCosmetics.Instance.pData.data[(ulong)p.CSteamID].Outfits[command[1]].Hair.B)
                     };
                     UnturnedChat.Say(caller, $"Cloned outfit {command[1]} named {command[1]}2", color);
                     MCustomCosmetics.Instance.pData.CommitToFile();
