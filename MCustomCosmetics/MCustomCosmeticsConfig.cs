@@ -13,6 +13,7 @@ namespace MCustomCosmetics
         public int OutfitLimit;
         public bool ClearUnsavedOnReboot;
         public string TextColor;
+        public List<string> BlockedCosmetics;
         public void LoadDefaults()
         {
             OutfitLimit = 5;
@@ -30,6 +31,7 @@ namespace MCustomCosmetics
                 Vest = 0,
                 Pants = 0
             };
+            BlockedCosmetics = new List<string>() { "1360", "69200-69201" };
         }
     }
 

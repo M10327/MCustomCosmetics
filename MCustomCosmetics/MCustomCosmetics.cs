@@ -210,6 +210,30 @@ namespace MCustomCosmetics
                             pantsItem = gcos.Pants;
                     else if (gcos.Pants == -1) pantsItem = 0;
                 }
+
+                List<int> blockedCosmetics = new List<int>();
+                foreach (var str in MCustomCosmetics.Instance.Configuration.Instance.BlockedCosmetics)
+                {
+                    var strings = str.Split('-');
+                    foreach(var c in strings)
+                    {
+                        if (int.TryParse(c, out int result))
+                        {
+                            blockedCosmetics.Add(result);
+                        }
+                    }
+                }
+
+                foreach (var b in blockedCosmetics)
+                {
+                    if (hatItem == b) hatItem = 0;
+                    if (maskItem == b) maskItem = 0;
+                    if (glassesItem == b) glassesItem = 0;
+                    if (backpackItem == b) backpackItem = 0;
+                    if (shirtItem == b) shirtItem = 0;
+                    if (vestItem == b) vestItem = 0;
+                    if (pantsItem == b) pantsItem = 0;
+                }
             }
         }
     }
